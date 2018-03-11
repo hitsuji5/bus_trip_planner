@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import numpy as np
 from search_engine import search_engine
+from error import NoPlacesError
+
 # MCTS scalar.  Larger scalar will increase exploitation, smaller will increase exploration.
 EXPLORATION_CONSTANT = 1 / np.sqrt(2.0)
 
@@ -8,9 +10,6 @@ EXPLORATION_CONSTANT = 1 / np.sqrt(2.0)
 # logging.basicConfig(level=logging.WARNING)
 # logger = logging.getLogger('MyLogger')
 
-class NoPlacesError(Exception):
-    status_code= 400
-    msg = "Invalid initial location is provided."
 
 class UCT(object):
     def __init__(self, initial_state, is_terminal):
