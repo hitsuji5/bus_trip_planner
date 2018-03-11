@@ -1,5 +1,6 @@
 from trip_planner import BusTripPlanner
 from flask import Flask, jsonify, request
+from mcts import NoPlacesError
 
 bus_trip_planner = BusTripPlanner()
 app = Flask(__name__)
@@ -20,6 +21,12 @@ def plan():
         "score" : score
     } for score, journey in journeys]
     return jsonify(results)
+
+@app.errorhandler(NoPlacesError)
+def bad_request_error(error):
+    response = jsonify({"error" : error.msg})
+    response.status_code = error.status_code
+    return response
 
 
 if __name__ == '__main__':

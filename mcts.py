@@ -8,6 +8,9 @@ EXPLORATION_CONSTANT = 1 / np.sqrt(2.0)
 # logging.basicConfig(level=logging.WARNING)
 # logger = logging.getLogger('MyLogger')
 
+class NoPlacesError(Exception):
+    status_code= 400
+    msg = "Invalid initial location is provided."
 
 class UCT(object):
     def __init__(self, initial_state, is_terminal):
@@ -62,6 +65,8 @@ class UCT(object):
 
     def select_leaf(self, state):
         node = self.root
+        if node.is_fully_expanded() and len(node.children) == 0:
+            raise NoPlacesError
         while self.is_terminal(state) == False:
             if len(node.children) == 0 or (not node.is_fully_expanded() and np.random.random() < .8):
                 return node.expand(state)
@@ -110,8 +115,9 @@ class Node(object):
         return True
 
     def expand(self, state):
-        # source = state.place
-        action = search_engine.explore(state, self.unexplored_stops, self.unexplored_pois)
+        stops = self.unexplored_stops
+        pois = self.unexplored_pois
+        action = search_engine.explore(state, stops, pois)
         state.step(action)
         child = Node(state, action, self)
         self.children.append(child)
