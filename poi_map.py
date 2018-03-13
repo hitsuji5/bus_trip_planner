@@ -15,7 +15,7 @@ class POIMap(object):
         for i, poi in enumerate(pois):
             if 'food' in poi['types']:
                 self.pois_type[i] = CATEGORY_FOOD
-            if 'shopping_mall' in poi['types'] or 'department_store' in poi['types']:
+            elif 'shopping_mall' in poi['types'] or 'department_store' in poi['types']:
                 self.pois_type[i] = CATEGORY_SHOP
             else:
                 self.pois_type[i] = CATEGORY_SPOT

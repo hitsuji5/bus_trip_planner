@@ -9,7 +9,7 @@ CATEGORY_OTHER = 4
 
 def create_place(id, location, type, score, data):
     if type == CATEGORY_FOOD:
-        cls = BusStop
+        cls = Food
     elif type == CATEGORY_SHOP:
         cls = Shop
     elif type == CATEGORY_SPOT:
